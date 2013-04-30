@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -21,35 +22,21 @@ namespace sharp_pass
     /// </summary>
     public partial class MainWindow : Window
     {
-        ObservableCollection<FooBar> _FooBarCollection = new ObservableCollection<FooBar>();
-        ObservableCollection<LibGit2Sharp.Commit> _CommitCollection = new ObservableCollection<LibGit2Sharp.Commit>();
+        ObservableCollection<string> _PassFileCollection = new ObservableCollection<string>();
 
         public MainWindow()
         {
-            var repo = new LibGit2Sharp.Repository("c:\\users\\peaceman\\pass");
-            foreach (var commit in repo.Commits)
-            {
-                _CommitCollection.Add(commit);
-            }
+            var pathToPassFiles = @"c:\users\peaceman\pass";
+            var repo = new LibGit2Sharp.Repository(pathToPassFiles);
 
-            //_FooBarCollection.Add(new FooBar { Foo = "ololadin", Bar = "craplord" });
-            //_FooBarCollection.Add(new FooBar { Foo = ";lasdflkjaasdfasdfasddfasdfsd;lfj", Bar = "lol" });
+            foreach (var filePath in Directory.EnumerateFiles(pathToPassFiles, "*.gpg", SearchOption.AllDirectories))
+            {
+                _PassFileCollection.Add(filePath);
+            }
 
             InitializeComponent();
         }
 
-        public ObservableCollection<LibGit2Sharp.Commit> CommitCollection { get { return _CommitCollection; } }
-        public ObservableCollection<FooBar> FooBarCollection { get { return _FooBarCollection; } }
-
-        private void AddRow(object sender, RoutedEventArgs e)
-        {
-            _FooBarCollection.Add(FooBarCollection.First());
-        }
-    }
-
-    public class FooBar
-    {
-        public string Foo { get; set; }
-        public string Bar { get; set; }
+        public ObservableCollection<string> PassFileCollection { get { return _PassFileCollection; } }
     }
 }

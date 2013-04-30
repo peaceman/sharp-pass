@@ -20,15 +20,13 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
-            <ListView Grid.Column="0" Grid.Row="1" ItemsSource="{Binding CommitCollection}">
+            <ListView Grid.Column="0" Grid.Row="1" ItemsSource="{Binding PassFileCollection}">
                 <ListView.View>
-                    <GridView ColumnHeaderToolTip="foobar">
-                        <GridViewColumn Header="foo" Width="Auto" DisplayMemberBinding="{Binding MessageShort}" />
-                        <GridViewColumn Header="bar" Width="Auto" DisplayMemberBinding="{Binding Sha}" />
+                    <GridView ColumnHeaderToolTip="Path to the pass file">
+                        <GridViewColumn Header="PassFilePath" Width="Auto" DisplayMemberBinding="{Binding}" />
                     </GridView>
                 </ListView.View>
             </ListView>
-            <Button Grid.Column="1" Content="new row" Click="AddRow"></Button>
         </Grid>
     </Grid>
 </Window>
