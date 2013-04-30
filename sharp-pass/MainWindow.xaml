@@ -20,11 +20,11 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
-            <ListView Grid.Column="0" Grid.Row="1" ItemsSource="{Binding FooBarCollection}">
+            <ListView Grid.Column="0" Grid.Row="1" ItemsSource="{Binding CommitCollection}">
                 <ListView.View>
                     <GridView ColumnHeaderToolTip="foobar">
-                        <GridViewColumn Header="foo" Width="Auto" DisplayMemberBinding="{Binding Foo}" />
-                        <GridViewColumn Header="bar" Width="Auto" DisplayMemberBinding="{Binding Bar}" />
+                        <GridViewColumn Header="foo" Width="Auto" DisplayMemberBinding="{Binding MessageShort}" />
+                        <GridViewColumn Header="bar" Width="Auto" DisplayMemberBinding="{Binding Sha}" />
                     </GridView>
                 </ListView.View>
             </ListView>

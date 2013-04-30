@@ -22,15 +22,23 @@ namespace sharp_pass
     public partial class MainWindow : Window
     {
         ObservableCollection<FooBar> _FooBarCollection = new ObservableCollection<FooBar>();
+        ObservableCollection<LibGit2Sharp.Commit> _CommitCollection = new ObservableCollection<LibGit2Sharp.Commit>();
 
         public MainWindow()
         {
-            _FooBarCollection.Add(new FooBar { Foo = "ololadin", Bar = "craplord" });
-            _FooBarCollection.Add(new FooBar { Foo = ";lasdflkjaasdfasdfasddfasdfsd;lfj", Bar = "lol" });
+            var repo = new LibGit2Sharp.Repository("c:\\users\\peaceman\\pass");
+            foreach (var commit in repo.Commits)
+            {
+                _CommitCollection.Add(commit);
+            }
+
+            //_FooBarCollection.Add(new FooBar { Foo = "ololadin", Bar = "craplord" });
+            //_FooBarCollection.Add(new FooBar { Foo = ";lasdflkjaasdfasdfasddfasdfsd;lfj", Bar = "lol" });
 
             InitializeComponent();
         }
 
+        public ObservableCollection<LibGit2Sharp.Commit> CommitCollection { get { return _CommitCollection; } }
         public ObservableCollection<FooBar> FooBarCollection { get { return _FooBarCollection; } }
 
         private void AddRow(object sender, RoutedEventArgs e)
