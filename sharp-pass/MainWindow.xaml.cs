@@ -52,7 +52,12 @@ namespace sharp_pass
             {
                 try
                 {
-                    var repo = new LibGit2Sharp.Repository(GetPasswordStorePath(enforceSelectionOfNewPath));
+                    var passwordStorePath = GetPasswordStorePath(enforceSelectionOfNewPath);
+                    var repo = new LibGit2Sharp.Repository(passwordStorePath);
+
+                    Properties.Settings.Default.PasswordStorePath = passwordStorePath;
+                    Properties.Settings.Default.Save();
+
                     return repo;
                 }
                 catch
@@ -64,7 +69,9 @@ namespace sharp_pass
 
         protected string GetPasswordStorePath(bool forceSelectionOfNewPath = false)
         {
-            if (Properties.Settings.Default.PasswordStorePath.Length == 0 || forceSelectionOfNewPath)
+            var passwordStorePath = Properties.Settings.Default.PasswordStorePath;
+
+            if (passwordStorePath.Length == 0 || forceSelectionOfNewPath)
             {
                 var folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
                 folderBrowserDialog.ShowNewFolderButton = false;
@@ -72,16 +79,25 @@ namespace sharp_pass
 
                 if (folderBrowserDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {
-                    Properties.Settings.Default.PasswordStorePath = folderBrowserDialog.SelectedPath;
-                    Properties.Settings.Default.Save();
+                    passwordStorePath = folderBrowserDialog.SelectedPath;
                 }
                 else
                 {
-                    System.Environment.Exit(0);
+                    if (passwordStorePath.Length == 0)
+                    {
+                        if (System.Windows.MessageBox.Show(
+                            this,
+                            "Exit application?",
+                            "Password store folder selection", 
+                            MessageBoxButton.YesNo) == System.Windows.MessageBoxResult.Yes)
+                        {
+                            Environment.Exit(0);
+                        }
+                    }
                 }
             }
 
-            return Properties.Settings.Default.PasswordStorePath;
+            return passwordStorePath;
         }
     }
 }
