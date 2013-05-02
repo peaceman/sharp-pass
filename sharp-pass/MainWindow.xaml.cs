@@ -94,14 +94,6 @@ namespace sharp_pass
         {
             _repo = OpenPasswordRepository();
             FillTreeView();
-            //foreach (var filePath in Directory.EnumerateFiles(GetPasswordStorePath(), "*.gpg", SearchOption.AllDirectories))
-            //{
-            //    string head, tail, directory;
-            //    directory = System.IO.Path.GetDirectoryName(filePath);
-            //    EquivalentSplit(directory, out head, out tail);
-
-            //    _PassFileCollection.Add(filePath);
-            //}
         }
 
         private void FillTreeView()
@@ -112,7 +104,7 @@ namespace sharp_pass
 
         private void AddSubDirectoriesToTreeView(ItemCollection parentNode, DirectoryInfo parentDirectoryInfo)
         {
-            foreach (var childDirectoryInfo in parentDirectoryInfo.EnumerateDirectories())
+            foreach (var childDirectoryInfo in parentDirectoryInfo.EnumerateDirectories().Where(dirInfo => !dirInfo.Name.StartsWith(".git")))
             {
                 var childNode = new TreeViewItem();
                 parentNode.Add(childNode);
@@ -120,31 +112,10 @@ namespace sharp_pass
                 AddSubDirectoriesToTreeView(childNode.Items, childDirectoryInfo);
             }
 
-            foreach (var fileInfo in parentDirectoryInfo.EnumerateFiles())
+            foreach (var fileInfo in parentDirectoryInfo.EnumerateFiles("*.gpg"))
             {
                 parentNode.Add(fileInfo.Name);
             }
-        }
-
-        public void EquivalentSplit(string path, out string head, out string tail)
-        {
-
-            // Get the directory separation character (i.e. '\').
-            string separator = System.IO.Path.DirectorySeparatorChar.ToString();
-
-            // Trim any separators at the end of the path
-            string lastCharacter = path.Substring(path.Length - 1);
-            if (separator == lastCharacter)
-            {
-                path = path.Substring(0, path.Length - 1);
-            }
-
-            int lastSeparatorIndex = path.LastIndexOf(separator);
-
-            head = path.Substring(0, lastSeparatorIndex);
-            tail = path.Substring(lastSeparatorIndex + separator.Length,
-                path.Length - lastSeparatorIndex - separator.Length);
-
         }
     }
 }
