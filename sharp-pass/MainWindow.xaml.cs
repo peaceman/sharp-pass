@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Forms;
 
 namespace sharp_pass
 {
@@ -26,10 +27,9 @@ namespace sharp_pass
 
         public MainWindow()
         {
-            var pathToPassFiles = @"c:\users\peaceman\pass";
-            var repo = new LibGit2Sharp.Repository(pathToPassFiles);
+            var passwordRepo = OpenPasswordRepository();
 
-            foreach (var filePath in Directory.EnumerateFiles(pathToPassFiles, "*.gpg", SearchOption.AllDirectories))
+            foreach (var filePath in Directory.EnumerateFiles(GetPasswordStorePath(), "*.gpg", SearchOption.AllDirectories))
             {
                 _PassFileCollection.Add(filePath);
             }
@@ -38,5 +38,46 @@ namespace sharp_pass
         }
 
         public ObservableCollection<string> PassFileCollection { get { return _PassFileCollection; } }
+
+        private void didSelectItem(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        protected LibGit2Sharp.Repository OpenPasswordRepository()
+        {
+            var enforceSelectionOfNewPath = false;
+
+            while (true)
+            {
+                try
+                {
+                    var repo = new LibGit2Sharp.Repository(GetPasswordStorePath(enforceSelectionOfNewPath));
+                    return repo;
+                }
+                catch
+                {
+                    enforceSelectionOfNewPath = true;
+                }
+            }
+        }
+
+        protected string GetPasswordStorePath(bool forceSelectionOfNewPath = false)
+        {
+            if (Properties.Settings.Default.PasswordStorePath.Length == 0 || forceSelectionOfNewPath)
+            {
+                var folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
+                folderBrowserDialog.ShowNewFolderButton = false;
+                folderBrowserDialog.RootFolder = Environment.SpecialFolder.Desktop;
+
+                if (folderBrowserDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    Properties.Settings.Default.PasswordStorePath = folderBrowserDialog.SelectedPath;
+                    Properties.Settings.Default.Save();
+                }
+            }
+
+            return Properties.Settings.Default.PasswordStorePath;
+        }
     }
 }

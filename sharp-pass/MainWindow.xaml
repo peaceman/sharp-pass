@@ -20,13 +20,15 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
-            <ListView Grid.Column="0" Grid.Row="1" ItemsSource="{Binding PassFileCollection}">
+            <ListView Grid.Column="0" Grid.Row="1" ItemsSource="{Binding PassFileCollection}" SelectionChanged="didSelectItem">
                 <ListView.View>
                     <GridView ColumnHeaderToolTip="Path to the pass file">
                         <GridViewColumn Header="PassFilePath" Width="Auto" DisplayMemberBinding="{Binding}" />
                     </GridView>
                 </ListView.View>
             </ListView>
+            
+            <TextBlock x:Name="displayText" Grid.Column="1" Grid.Row="1" />
         </Grid>
     </Grid>
 </Window>
