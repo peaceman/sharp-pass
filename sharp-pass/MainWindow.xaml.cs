@@ -24,6 +24,7 @@ namespace sharp_pass
     public partial class MainWindow : Window
     {
         ObservableCollection<string> _PassFileCollection = new ObservableCollection<string>();
+        LibGit2Sharp.Repository _repo;
 
         public MainWindow()
         {
@@ -31,11 +32,6 @@ namespace sharp_pass
         }
 
         public ObservableCollection<string> PassFileCollection { get { return _PassFileCollection; } }
-
-        private void didSelectItem(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
 
         protected LibGit2Sharp.Repository OpenPasswordRepository()
         {
@@ -96,12 +92,59 @@ namespace sharp_pass
 
         private void OnContentRendered(object sender, EventArgs e)
         {
-            var passwordRepo = OpenPasswordRepository();
+            _repo = OpenPasswordRepository();
+            FillTreeView();
+            //foreach (var filePath in Directory.EnumerateFiles(GetPasswordStorePath(), "*.gpg", SearchOption.AllDirectories))
+            //{
+            //    string head, tail, directory;
+            //    directory = System.IO.Path.GetDirectoryName(filePath);
+            //    EquivalentSplit(directory, out head, out tail);
 
-            foreach (var filePath in Directory.EnumerateFiles(GetPasswordStorePath(), "*.gpg", SearchOption.AllDirectories))
+            //    _PassFileCollection.Add(filePath);
+            //}
+        }
+
+        private void FillTreeView()
+        {
+            var repoPath = new DirectoryInfo(_repo.Info.WorkingDirectory);
+            AddSubDirectoriesToTreeView(passFiles.Items, repoPath);
+        }
+
+        private void AddSubDirectoriesToTreeView(ItemCollection parentNode, DirectoryInfo parentDirectoryInfo)
+        {
+            foreach (var childDirectoryInfo in parentDirectoryInfo.EnumerateDirectories())
             {
-                _PassFileCollection.Add(filePath);
+                var childNode = new TreeViewItem();
+                parentNode.Add(childNode);
+                childNode.Header = childDirectoryInfo.Name;
+                AddSubDirectoriesToTreeView(childNode.Items, childDirectoryInfo);
             }
+
+            foreach (var fileInfo in parentDirectoryInfo.EnumerateFiles())
+            {
+                parentNode.Add(fileInfo.Name);
+            }
+        }
+
+        public void EquivalentSplit(string path, out string head, out string tail)
+        {
+
+            // Get the directory separation character (i.e. '\').
+            string separator = System.IO.Path.DirectorySeparatorChar.ToString();
+
+            // Trim any separators at the end of the path
+            string lastCharacter = path.Substring(path.Length - 1);
+            if (separator == lastCharacter)
+            {
+                path = path.Substring(0, path.Length - 1);
+            }
+
+            int lastSeparatorIndex = path.LastIndexOf(separator);
+
+            head = path.Substring(0, lastSeparatorIndex);
+            tail = path.Substring(lastSeparatorIndex + separator.Length,
+                path.Length - lastSeparatorIndex - separator.Length);
+
         }
     }
 }

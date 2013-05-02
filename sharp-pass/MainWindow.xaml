@@ -20,15 +20,8 @@
                 <ColumnDefinition Width="2*" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
+            <TreeView x:Name="passFiles" Grid.Column="0" Grid.Row="1" />
 
-            <ListView Grid.Column="0" Grid.Row="1" ItemsSource="{Binding PassFileCollection}" SelectionChanged="didSelectItem">
-                <ListView.View>
-                    <GridView ColumnHeaderToolTip="Path to the pass file">
-                        <GridViewColumn Header="PassFilePath" Width="Auto" DisplayMemberBinding="{Binding}" />
-                    </GridView>
-                </ListView.View>
-            </ListView>
-            
             <TextBlock x:Name="displayText" Grid.Column="1" Grid.Row="1" />
         </Grid>
     </Grid>
