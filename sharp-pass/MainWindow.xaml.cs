@@ -27,13 +27,6 @@ namespace sharp_pass
 
         public MainWindow()
         {
-            var passwordRepo = OpenPasswordRepository();
-
-            foreach (var filePath in Directory.EnumerateFiles(GetPasswordStorePath(), "*.gpg", SearchOption.AllDirectories))
-            {
-                _PassFileCollection.Add(filePath);
-            }
-
             InitializeComponent();
         }
 
@@ -76,6 +69,7 @@ namespace sharp_pass
                 var folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
                 folderBrowserDialog.ShowNewFolderButton = false;
                 folderBrowserDialog.RootFolder = Environment.SpecialFolder.Desktop;
+                folderBrowserDialog.Description = "Select your password store folder";
 
                 if (folderBrowserDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {
@@ -98,6 +92,16 @@ namespace sharp_pass
             }
 
             return passwordStorePath;
+        }
+
+        private void OnContentRendered(object sender, EventArgs e)
+        {
+            var passwordRepo = OpenPasswordRepository();
+
+            foreach (var filePath in Directory.EnumerateFiles(GetPasswordStorePath(), "*.gpg", SearchOption.AllDirectories))
+            {
+                _PassFileCollection.Add(filePath);
+            }
         }
     }
 }
