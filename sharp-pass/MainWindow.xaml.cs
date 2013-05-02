@@ -75,6 +75,10 @@ namespace sharp_pass
                     Properties.Settings.Default.PasswordStorePath = folderBrowserDialog.SelectedPath;
                     Properties.Settings.Default.Save();
                 }
+                else
+                {
+                    System.Environment.Exit(0);
+                }
             }
 
             return Properties.Settings.Default.PasswordStorePath;
