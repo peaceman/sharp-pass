@@ -17,12 +17,12 @@
         </Menu>
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="2*" />
+                <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <TreeView x:Name="passFiles" Grid.Column="0" Grid.Row="1" SelectedItemChanged="passFiles_SelectedItemChanged" />
 
-            <TextBlock x:Name="displayText" Grid.Column="1" Grid.Row="1" />
+            <TextBox x:Name="displayText" Grid.Column="1" Grid.Row="1" IsReadOnly="True" />
         </Grid>
     </Grid>
 </Window>
