@@ -143,5 +143,10 @@ namespace sharp_pass
                 File.Delete(tmpDecryptionFileName);
             }
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Clipboard.SetText(displayText.Text);
+        }
     }
 }

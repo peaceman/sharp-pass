@@ -22,7 +22,11 @@
             </Grid.ColumnDefinitions>
             
             <TreeView x:Name="passFiles" Grid.Column="0" Grid.Row="1" SelectedItemChanged="passFiles_SelectedItemChanged" />
-            <TextBox x:Name="displayText" Grid.Column="1" Grid.Row="1" IsReadOnly="True" />
+            <DockPanel Grid.Column="1" Grid.Row="1" LastChildFill="True">
+                <Button DockPanel.Dock="Bottom" Content="Copy to clipboard" Click="Button_Click"/>
+                <TextBox x:Name="displayText" IsReadOnly="True" />
+            </DockPanel>
+            
 
             <GridSplitter Grid.Column="1" HorizontalAlignment="Left" Width="2" />
         </Grid>
