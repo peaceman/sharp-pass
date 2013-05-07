@@ -20,9 +20,11 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
+            
             <TreeView x:Name="passFiles" Grid.Column="0" Grid.Row="1" SelectedItemChanged="passFiles_SelectedItemChanged" />
-
             <TextBox x:Name="displayText" Grid.Column="1" Grid.Row="1" IsReadOnly="True" />
+
+            <GridSplitter Grid.Column="1" HorizontalAlignment="Left" Width="2" />
         </Grid>
     </Grid>
 </Window>
