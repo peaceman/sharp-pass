@@ -15,6 +15,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Forms;
+using System.Security;
+using GpgApi;
 
 namespace sharp_pass
 {
@@ -29,6 +31,7 @@ namespace sharp_pass
         public MainWindow()
         {
             InitializeComponent();
+            GpgInterface.ExePath = @"c:\Program Files (x86)\GNU\GnuPG\pub\gpg.exe";
         }
 
         public ObservableCollection<string> PassFileCollection { get { return _PassFileCollection; } }
@@ -114,7 +117,30 @@ namespace sharp_pass
 
             foreach (var fileInfo in parentDirectoryInfo.EnumerateFiles("*.gpg"))
             {
-                parentNode.Add(fileInfo.Name);
+                parentNode.Add(fileInfo);
+            }
+        }
+
+        private void passFiles_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        {
+            FileInfo selectedFile;
+            if (e.NewValue is System.IO.FileInfo)
+            {
+                selectedFile = (FileInfo)e.NewValue;
+            }
+            else
+            {
+                return;
+            }
+            
+            string tmpDecryptionFileName = selectedFile.FullName + ".tmp";
+            GpgDecrypt decrypt = new GpgDecrypt(selectedFile.FullName, tmpDecryptionFileName);
+            GpgInterfaceResult result = decrypt.Execute();
+
+            if (result.Status == GpgInterfaceStatus.Success)
+            {
+                displayText.Text = System.IO.File.ReadAllText(tmpDecryptionFileName);
+                File.Delete(tmpDecryptionFileName);
             }
         }
     }

@@ -20,7 +20,7 @@
                 <ColumnDefinition Width="2*" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <TreeView x:Name="passFiles" Grid.Column="0" Grid.Row="1" />
+            <TreeView x:Name="passFiles" Grid.Column="0" Grid.Row="1" SelectedItemChanged="passFiles_SelectedItemChanged" />
 
             <TextBlock x:Name="displayText" Grid.Column="1" Grid.Row="1" />
         </Grid>

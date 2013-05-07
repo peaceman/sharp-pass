@@ -62,6 +62,9 @@
     <SignManifests>true</SignManifests>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="GpgApi">
+      <HintPath>..\packages\GpgAPI.1.4.0\lib\GpgApi.dll</HintPath>
+    </Reference>
     <Reference Include="LibGit2Sharp">
       <HintPath>..\packages\LibGit2Sharp.0.10\lib\net35\LibGit2Sharp.dll</HintPath>
     </Reference>
