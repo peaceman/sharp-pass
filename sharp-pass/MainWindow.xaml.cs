@@ -17,6 +17,8 @@ using System.Windows.Shapes;
 using System.Windows.Forms;
 using System.Security;
 using GpgApi;
+using sharp_pass.DataModel;
+using sharp_pass.ViewModel;
 
 namespace sharp_pass
 {
@@ -27,10 +29,15 @@ namespace sharp_pass
     {
         ObservableCollection<string> _PassFileCollection = new ObservableCollection<string>();
         LibGit2Sharp.Repository _repo;
+        public PasswordStoreTreeViewModel TreeViewModel { get; set; }
 
         public MainWindow()
         {
             InitializeComponent();
+            var passwordFolder = PasswordFolder.CreateWithDirectoryPath(@"c:\users\peaceman\pass");
+            TreeViewModel = new PasswordStoreTreeViewModel(passwordFolder);
+            base.DataContext = TreeViewModel;
+
             GpgInterface.ExePath = @"c:\Program Files (x86)\GNU\GnuPG\pub\gpg.exe";
         }
 
@@ -102,7 +109,7 @@ namespace sharp_pass
         private void FillTreeView()
         {
             var repoPath = new DirectoryInfo(_repo.Info.WorkingDirectory);
-            AddSubDirectoriesToTreeView(passFiles.Items, repoPath);
+            //AddSubDirectoriesToTreeView(passFiles.Items, repoPath);
         }
 
         private void AddSubDirectoriesToTreeView(ItemCollection parentNode, DirectoryInfo parentDirectoryInfo)

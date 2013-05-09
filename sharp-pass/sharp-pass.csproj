@@ -88,7 +88,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="DataAccess\PasswordStore.cs" />
+    <Compile Include="DataModel\PasswordEntry.cs" />
+    <Compile Include="DataModel\PasswordFolder.cs" />
     <Compile Include="Settings.cs" />
+    <Compile Include="ViewModel\PasswordEntryViewModel.cs" />
+    <Compile Include="ViewModel\PasswordFolderViewModel.cs" />
+    <Compile Include="ViewModel\PasswordStoreTreeViewModel.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -148,6 +154,7 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

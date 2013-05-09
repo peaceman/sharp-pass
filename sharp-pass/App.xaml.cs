@@ -13,6 +13,6 @@ namespace sharp_pass
     /// </summary>
     public partial class App : Application
     {
-
+        
     }
 }
