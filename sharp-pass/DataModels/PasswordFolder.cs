@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace sharp_pass.DataModel
+namespace sharp_pass.DataModels
 {
     public class PasswordFolder
     {

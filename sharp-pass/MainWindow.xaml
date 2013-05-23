@@ -30,7 +30,7 @@
                 </DataTemplate>
             </Grid.Resources>
 
-            <TreeView ItemsSource="{Binding RootLevel}">
+            <TreeView ItemsSource="{Binding TreeViewModel.RootLevel}" SelectedItemChanged="TreeView_SelectedItemChanged">
                 <TreeView.ItemContainerStyle>
                     <Style TargetType="{x:Type TreeViewItem}">
                         <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
@@ -39,13 +39,19 @@
                     </Style>
                 </TreeView.ItemContainerStyle>
             </TreeView>
-
-            <DockPanel Grid.Column="1" Grid.Row="1" LastChildFill="True">
-                <Button DockPanel.Dock="Bottom" Content="Copy to clipboard" Click="Button_Click"/>
-                <TextBox x:Name="displayText" IsReadOnly="True" />
-            </DockPanel>
             
-
+            <StackPanel Grid.Column="1" Grid.Row="1" DataContext="{Binding DetailsViewModel}">
+                <HeaderedContentControl Header="Password">
+                    <StackPanel>
+                        <TextBox x:Name="displayText" Text="{Binding DisplayedPassword}"></TextBox>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                            <CheckBox DockPanel.Dock="Right" VerticalContentAlignment="Center" Content="Show clear text" IsChecked="{Binding IsDisplayingClearTextPassword,Mode=TwoWay}"></CheckBox>
+                            <Button Command="{Binding CopyToClipboardCommand}">Copy to clipboard</Button>
+                        </StackPanel>
+                    </StackPanel>
+                </HeaderedContentControl>
+            </StackPanel>
+            
             <GridSplitter Grid.Column="1" HorizontalAlignment="Left" Width="2" />
         </Grid>
     </Grid>

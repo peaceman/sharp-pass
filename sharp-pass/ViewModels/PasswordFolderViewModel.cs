@@ -1,4 +1,4 @@
-﻿using sharp_pass.DataModel;
+﻿using sharp_pass.DataModels;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

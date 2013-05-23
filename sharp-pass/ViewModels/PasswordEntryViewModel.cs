@@ -1,4 +1,4 @@
-﻿using sharp_pass.DataModel;
+﻿using sharp_pass.DataModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -55,7 +55,7 @@ namespace sharp_pass.ViewModel
         }
         #endregion // Constructors
 
-                #region INotifyPropertyChanged Members
+        #region INotifyPropertyChanged Members
 
         public event PropertyChangedEventHandler PropertyChanged;
 

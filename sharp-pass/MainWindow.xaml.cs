@@ -17,26 +17,40 @@ using System.Windows.Shapes;
 using System.Windows.Forms;
 using System.Security;
 using GpgApi;
-using sharp_pass.DataModel;
+using sharp_pass.DataModels;
 using sharp_pass.ViewModel;
+using System.ComponentModel;
 
 namespace sharp_pass
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window, INotifyPropertyChanged
     {
         ObservableCollection<string> _PassFileCollection = new ObservableCollection<string>();
         LibGit2Sharp.Repository _repo;
         public PasswordStoreTreeViewModel TreeViewModel { get; set; }
+        private PasswordDetailsViewModel _detailsViewModel;
+        public PasswordDetailsViewModel DetailsViewModel
+        {
+            get { return _detailsViewModel; }
+            set
+            {
+                if (value != _detailsViewModel)
+                {
+                    _detailsViewModel = value;
+                    OnPropertyChanged("DetailsViewModel");
+                }
+            }
+        }
 
         public MainWindow()
         {
             InitializeComponent();
             var passwordFolder = PasswordFolder.CreateWithDirectoryPath(@"c:\users\peaceman\pass");
             TreeViewModel = new PasswordStoreTreeViewModel(passwordFolder);
-            base.DataContext = TreeViewModel;
+            base.DataContext = this;
 
             GpgInterface.ExePath = @"c:\Program Files (x86)\GNU\GnuPG\pub\gpg.exe";
         }
@@ -155,5 +169,24 @@ namespace sharp_pass
         {
             System.Windows.Clipboard.SetText(displayText.Text);
         }
+
+        private void TreeView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        {
+            PasswordEntryViewModel selectedPasswordEntryViewModel;
+            if (e.NewValue is PasswordEntryViewModel)
+            {
+                selectedPasswordEntryViewModel = (PasswordEntryViewModel)e.NewValue;
+                DetailsViewModel = new PasswordDetailsViewModel(selectedPasswordEntryViewModel.PasswordEntry);
+            }
+        }
+
+        #region INotifyPropertyChanged Members
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+        }
+        #endregion // INotifyPropertyChanged Members
     }
 }

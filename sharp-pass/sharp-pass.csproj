@@ -88,13 +88,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Commands\PasswordEntryCopyToClipboardCommand.cs" />
     <Compile Include="DataAccess\PasswordStore.cs" />
-    <Compile Include="DataModel\PasswordEntry.cs" />
-    <Compile Include="DataModel\PasswordFolder.cs" />
+    <Compile Include="DataModels\PasswordEntry.cs" />
+    <Compile Include="DataModels\PasswordFolder.cs" />
     <Compile Include="Settings.cs" />
-    <Compile Include="ViewModel\PasswordEntryViewModel.cs" />
-    <Compile Include="ViewModel\PasswordFolderViewModel.cs" />
-    <Compile Include="ViewModel\PasswordStoreTreeViewModel.cs" />
+    <Compile Include="ViewModels\PasswordDetailsViewModel.cs" />
+    <Compile Include="ViewModels\PasswordEntryViewModel.cs" />
+    <Compile Include="ViewModels\PasswordFolderViewModel.cs" />
+    <Compile Include="ViewModels\PasswordStoreTreeViewModel.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
